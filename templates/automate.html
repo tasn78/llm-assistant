@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automation Hub</title>
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light-blue">
+    <div class="container py-5">
+        <div class="card shadow-lg p-4 custom-card">
+            <div class="card-body">
+                <h1 class="card-title text-center mb-4 app-title"><i class="fas fa-robot me-2"></i>Automation Hub</h1>
+                <p class="text-center text-muted mb-5">Review your content and run integrations.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="original_text_display" class="form-label"><strong>Original Text:</strong></label>
+                        <textarea class="form-control" id="original_text_display" rows="10" readonly>{{ original_text }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="summary_display" class="form-label"><strong>Generated Summary:</strong></label>
+                        <textarea class="form-control" id="summary_display" rows="10" readonly>{{ summary }}</textarea>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <form method="POST" id="automate-form">
+                    <h2 class="h4 mb-3"><i class="fas fa-cogs me-2"></i>Automation Options</h2>
+                    
+                    <div class="card card-body mb-3">
+                        <h5 class="card-title">Email Automation</h5>
+                        <div class="mb-3">
+                            <label for="email_to" class="form-label">Send Summary Email To:</label>
+                            <input type="email" class="form-control" id="email_to" name="email_to" placeholder="recipient@example.com">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="send_emergency" name="send_emergency">
+                            <label class="form-check-label" for="send_emergency">
+                                <i class="fas fa-exclamation-triangle text-danger"></i> Send Emergency Alert (if keywords like 'urgent' are found)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="card card-body">
+                        <h5 class="card-title">Calendar Automation</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="create_event" name="create_event">
+                            <label class="form-check-label" for="create_event">
+                                <i class="fas fa-calendar-plus"></i> Create Google Calendar Event (auto-detects date/time from original text)
+                            </label>
+                        </div>
+                         <div class="mb-3 mt-3">
+                            <label for="event_title" class="form-label">Event Title (Optional):</label>
+                            <input type="text" class="form-control" id="event_title" name="event_title" placeholder="Defaults to 'Meeting from AI Assistant'">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">
+                           <i class="fas fa-play-circle me-2"></i>Run Selected Automations
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left me-2"></i>Start Over</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

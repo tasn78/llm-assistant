@@ -1,0 +1,13 @@
+# Environment variables - DO NOT COMMIT
+.env
+
+# Google Cloud credentials and tokens - DO NOT COMMIT
+credentials.json
+token.json
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# SSL Keys - DO NOT COMMIT
+*.pem

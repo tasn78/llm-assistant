@@ -1,0 +1,35 @@
+body.bg-light-blue {
+    background-color: #f0f8ff; /* A pleasant light alice blue */
+}
+
+.custom-card {
+    border-radius: 15px;
+    border: none;
+    background-color: #ffffff;
+}
+
+.app-title {
+    color: #0d6efd; /* Bootstrap primary blue */
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #6c757d;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.or-divider:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.or-divider:not(:empty)::after {
+    margin-left: .25em;
+}

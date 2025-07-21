@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Document Assistant</title>
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light-blue">
+    <div class="container py-5">
+        <div class="card shadow-lg p-4 custom-card">
+            <div class="card-body">
+                <h1 class="card-title text-center mb-4 app-title"><i class="fas fa-magic me-2"></i>AI Document Assistant</h1>
+                <p class="text-center text-muted mb-5">Summarize text or documents to prepare for automation.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" enctype="multipart/form-data" id="summarize-form">
+                    <div class="mb-4">
+                        <label for="input_text" class="form-label lead"><i class="fas fa-paste me-2"></i>Paste Text Here</label>
+                        <textarea class="form-control" id="input_text" name="input_text" rows="8" placeholder="Enter your text..."></textarea>
+                    </div>
+
+                    <div class="mb-4 text-center or-divider"><span>OR</span></div>
+
+                    <div class="mb-4">
+                        <label for="document_file" class="form-label lead"><i class="fas fa-upload me-2"></i>Upload a Document</label>
+                        <input class="form-control" type="file" id="document_file" name="document_file" accept=".txt,.pdf,.docx">
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="min_length" class="form-label">Min Summary Length: <span id="min_val">30</span></label>
+                            <input type="range" class="form-range" id="min_length" name="min_length" min="10" max="100" value="30">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="max_length" class="form-label">Max Summary Length: <span id="max_val">150</span></label>
+                            <input type="range" class="form-range" id="max_length" name="max_length" min="50" max="500" value="150">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mb-5">
+                        <button type="submit" class="btn btn-primary btn-lg process-btn">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            <span class="btn-text"><i class="fas fa-file-export me-2"></i>Generate Summary & Automate</span>
+                        </button>
+                    </div>
+                </form>
+
+                 <div class="text-center mt-4">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary btn-sm"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        document.getElementById('summarize-form').addEventListener('submit', function(e) {
+            const btn = e.target.querySelector('.process-btn');
+            btn.querySelector('.spinner-border').classList.remove('d-none');
+            btn.querySelector('.btn-text').textContent = 'Summarizing...';
+            btn.setAttribute('disabled', 'disabled');
+        });
+        const minSlider = document.getElementById('min_length');
+        const maxSlider = document.getElementById('max_length');
+        minSlider.oninput = () => document.getElementById('min_val').innerText = minSlider.value;
+        maxSlider.oninput = () => document.getElementById('max_val').innerText = maxSlider.value;
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Flask
+python-dotenv
+transformers[sentencepiece]
+torch
+PyPDF2
+python-docx
+dateparser
+pytz
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
+PyMuPDF
+Flask-Session
